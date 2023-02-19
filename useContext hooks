@@ -1,0 +1,55 @@
+import "./styles.css";
+import { useState, createContext, useContext } from "react";
+
+const langs = {
+  en: {
+    hello: "Hello, World",
+    name: "My Name is Aks"
+  },
+  es: {
+    hello: "Hol, mundo!",
+    name: "Me llamo Aks"
+  }
+};
+
+const LangContext = createContext();
+
+function FormattedMessage({ id }) {
+  const lang = useContext(LangContext);
+  return langs[lang][id];
+}
+function Display() {
+  return (
+    <>
+      <h1>
+        <FormattedMessage id="hello" />
+      </h1>
+      <FormattedMessage id="name" />
+    </>
+  );
+}
+
+function App() {
+  const [lang, setLang] = useState("en");
+  return (
+    <LangContext.Provider value={lang}>
+      <button
+        onClick={() => {
+          setLang("en");
+        }}
+      >
+        EN
+      </button>
+      <button
+        onClick={() => {
+          setLang("es");
+        }}
+      >
+        ES
+      </button>
+      <Display />
+    </LangContext.Provider>
+  );
+}
+
+export default App;
